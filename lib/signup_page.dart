@@ -4,9 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'services/auth_service.dart';
 import 'home_page.dart';
 
-// =============================================================
-//  SIGNUP PAGE — Deep Guard AI (Premium Midnight Cyber Edition)
-// =============================================================
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
@@ -93,7 +90,6 @@ class _SignupPageState extends State<SignupPage> {
       backgroundColor: const Color(0xFF080810),
       body: Stack(
         children: [
-          // ─── BACKGROUND LAYER: MESH GRADIENT ──────────────────────────────
           Positioned(
             top: -50,
             left: -100,
@@ -105,11 +101,9 @@ class _SignupPageState extends State<SignupPage> {
             child: _buildGlowOrb(400, Color(0xFF00F5FF).withOpacity(0.15)),
           ),
 
-          // ─── MAIN CONTENT ─────────────────────────────────────────────────
           SafeArea(
             child: Column(
               children: [
-                // BACK BUTTON
                 Align(
                   alignment: Alignment.topLeft,
                   child: Padding(
@@ -126,7 +120,6 @@ class _SignupPageState extends State<SignupPage> {
                     child: Column(
                       children: [
                         const SizedBox(height: 8),
-                        // HEADER
                         const Icon(
                           Icons.person_add_outlined,
                           size: 64,
@@ -149,7 +142,6 @@ class _SignupPageState extends State<SignupPage> {
                         ),
                         const SizedBox(height: 40),
 
-                        // FORM CARD
                         ClipRRect(
                           borderRadius: BorderRadius.circular(32),
                           child: BackdropFilter(
@@ -196,7 +188,6 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                         const SizedBox(height: 32),
-                        // FOOTER
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

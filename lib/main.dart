@@ -6,7 +6,6 @@ import 'home_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  // Supabase URL and Anon Key configuration
   await Supabase.initialize(
     url: 'https://jkmaglmvuiyjowcispcp.supabase.co',
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImprbWFnbG12dWl5am93Y2lzcGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU0MDUyMTUsImV4cCI6MjA5MDk4MTIxNX0.VA44tFbFtC5JZFpWzXHCxtcJgpt8FBXL5HyeGZRj7uo',
@@ -22,12 +21,9 @@ class DeepfakeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // ─── FEATURE 10: BRANDING — App Name ────────────────────────────
       title: "Deep Guard AI",
-      // ─── FEATURE 8: DARK MODE — ThemeMode.system follows device setting
       themeMode: ThemeMode.system,
 
-      // ── LIGHT THEME ────────────────────────────────────────────────
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -38,7 +34,7 @@ class DeepfakeApp extends StatelessWidget {
         cardTheme: CardThemeData(
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          color: Colors.white.withOpacity(0.9),
+          color: Colors.white.withValues(alpha: 0.9),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -47,12 +43,11 @@ class DeepfakeApp extends StatelessWidget {
             minimumSize: const Size(double.infinity, 56),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             elevation: 8,
-            shadowColor: const Color(0xFF00F5FF).withOpacity(0.5),
+            shadowColor: const Color(0xFF00F5FF).withValues(alpha: 0.5),
           ),
         ),
       ),
 
-      // ── DARK THEME ─────────────────────────────────────────────────
       darkTheme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -65,7 +60,7 @@ class DeepfakeApp extends StatelessWidget {
         cardTheme: CardThemeData(
           elevation: 0,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          color: const Color(0xFF12121A).withOpacity(0.8),
+          color: const Color(0xFF12121A).withValues(alpha: 0.8),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
@@ -74,7 +69,7 @@ class DeepfakeApp extends StatelessWidget {
             minimumSize: const Size(double.infinity, 56),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             elevation: 12,
-            shadowColor: const Color(0xFF00F5FF).withOpacity(0.6),
+            shadowColor: const Color(0xFF00F5FF).withValues(alpha: 0.6),
           ),
         ),
       ),

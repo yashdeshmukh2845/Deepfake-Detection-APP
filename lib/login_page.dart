@@ -5,9 +5,6 @@ import 'signup_page.dart';
 import 'home_page.dart';
 import 'services/auth_service.dart';
 
-// =============================================================
-//  LOGIN PAGE — Deep Guard AI (Premium Midnight Cyber Edition)
-// =============================================================
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -80,7 +77,6 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: const Color(0xFF080810),
       body: Stack(
         children: [
-          // ─── BACKGROUND LAYER: MESH GRADIENT ──────────────────────────────
           Positioned(
             top: -100,
             right: -50,
@@ -97,7 +93,6 @@ class _LoginPageState extends State<LoginPage> {
             child: _buildGlowOrb(300, Color(0xFF00F5FF).withOpacity(0.08)),
           ),
 
-          // ─── MAIN CONTENT ─────────────────────────────────────────────────
           SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -105,7 +100,6 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // LOGO AREA
                     Container(
                       height: 100,
                       width: 100,
@@ -145,7 +139,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     const SizedBox(height: 48),
 
-                    // GLASS CARD
                     ClipRRect(
                       borderRadius: BorderRadius.circular(32),
                       child: BackdropFilter(
@@ -205,7 +198,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
 
                     const SizedBox(height: 32),
-                    // FOOTER
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

@@ -7,12 +7,7 @@ import 'model_service.dart';
 import 'login_page.dart';
 import 'history_page.dart';
 import 'services/auth_service.dart';
-import 'services/sightengine_service.dart'; // Bypassed
 
-// =============================================================
-//  HOME PAGE — Deep Guard AI
-//  Dark header banner + clean white body card layout
-// =============================================================
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -26,12 +21,8 @@ class _HomePageState extends State<HomePage> {
   bool isVideo = false;
   bool _isLoading = false;
   
-  // Bypassed: always use local backend now
-  // bool _isSightengine = false; 
-
   final ModelService _modelService = ModelService();
   final AuthService _authService = AuthService();
-  // final SightengineService _sightengineService = SightengineService(); // Bypassed
 
   Future<void> _pickMedia(ImageSource source, {bool pickVideo = false}) async {
     final XFile? media = pickVideo
@@ -99,13 +90,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F5F9), // Light grey body
+      backgroundColor: Color(0xFFF1F5F9),
       body: Column(
         children: [
-          // ─── TOP HERO BANNER with gradient ──────────────────────────────
           _buildHeroBanner(context),
 
-          // ─── SCROLLABLE BODY ────────────────────────────────────────────
           Expanded(
             child: SingleChildScrollView(
               padding: EdgeInsets.fromLTRB(20, 0, 20, 24),
@@ -114,14 +103,12 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   SizedBox(height: 24),
 
-                  // Section label
                   _sectionLabel("UPLOAD CONTENT"),
                   SizedBox(height: 12),
                   _buildSelectionCard(),
 
                   SizedBox(height: 28),
 
-                  // Preview section (only shows when media is picked)
                   if (selectedMedia != null) ...[
                     _sectionLabel("MEDIA PREVIEW"),
                     SizedBox(height: 12),
@@ -129,7 +116,6 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(height: 28),
                   ],
 
-                  // Analyze button
                   _buildAnalyzeButton(),
                   SizedBox(height: 16),
                 ],
@@ -141,20 +127,17 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ── HERO BANNER: Dark gradient header with title + action icons ────────
   Widget _buildHeroBanner(BuildContext context) {
     return Container(
       width: double.infinity,
-      // Add padding for the status bar height at the top
       padding: EdgeInsets.fromLTRB(24, MediaQuery.of(context).padding.top + 16, 16, 28),
       decoration: BoxDecoration(
-        // Same dark gradient used on login/signup for brand consistency
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF1A1040), // deep indigo
-            Color(0xFF0D1B3E), // dark blue
+            Color(0xFF1A1040),
+            Color(0xFF0D1B3E),
           ],
         ),
         borderRadius: BorderRadius.only(
@@ -172,11 +155,9 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top row: App name + action icons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // App title
               Row(
                 children: [
                   Icon(Icons.security_rounded, color: Color(0xFF818CF8), size: 26),
@@ -192,7 +173,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              // Action icons (history + logout)
               Row(
                 children: [
                   _headerIconButton(
@@ -215,7 +195,6 @@ class _HomePageState extends State<HomePage> {
 
           SizedBox(height: 24),
 
-          // Tagline text
           Text(
             "HIGH FIDELITY ANALYSIS",
             style: TextStyle(
@@ -249,7 +228,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ── Helper: icon button for the dark header ────────────────────────────
   Widget _headerIconButton({
     required IconData icon,
     required String tooltip,
@@ -277,7 +255,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ── Helper: small grey section labels ────────────────────────────────
   Widget _sectionLabel(String text) {
     return Text(
       text,
@@ -290,7 +267,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ── Selection card with 4 pick buttons ────────────────────────────────
   Widget _buildSelectionCard() {
     return Container(
       decoration: BoxDecoration(
@@ -328,7 +304,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget _verticalDivider() => Container(width: 1, height: 70, color: Colors.grey[100]);
 
-  // ── Individual pick button ────────────────────────────────────────────
   Widget _pickButton(IconData icon, String label, ImageSource source, bool pickVideo, Color color) {
     return InkWell(
       onTap: () => _pickMedia(source, pickVideo: pickVideo),
@@ -362,7 +337,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ── Preview card (rounded + shadow) ──────────────────────────────────
   Widget _buildPreviewCard() {
     return Container(
       decoration: BoxDecoration(
@@ -379,7 +353,6 @@ class _HomePageState extends State<HomePage> {
         borderRadius: BorderRadius.circular(20),
         child: Stack(
           children: [
-            // Media preview
             isVideo
                 ? Container(
                     height: 240,
@@ -391,7 +364,6 @@ class _HomePageState extends State<HomePage> {
                     ? Image.network(selectedMedia!.path, height: 240, width: double.infinity, fit: BoxFit.cover)
                     : Image.file(File(selectedMedia!.path), height: 240, width: double.infinity, fit: BoxFit.cover)),
 
-            // Delete button
             Positioned(
               top: 10,
               right: 10,
@@ -413,7 +385,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            // Filename bar at bottom
             Positioned(
               bottom: 0, left: 0, right: 0,
               child: Container(
@@ -439,7 +410,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  // ── Analyze button with gradient and loading state ────────────────────
   Widget _buildAnalyzeButton() {
     bool isReady = selectedMedia != null;
 

@@ -13,10 +13,7 @@ import tempfile
 import requests  # Used to call the Sightengine cloud API
 import traceback
 
-# ==============================================================
-# LIFESPAN: Replaces the deprecated @app.on_event("startup")
-# This is the modern FastAPI way to run code at startup
-# ==============================================================
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Runs startup logic before the app begins serving requests."""
@@ -39,19 +36,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ==============================================================
-# SIGHTENGINE API CREDENTIALS
-# Free tier: 2,000 calls/month, 500/day
-# Sign up at: https://sightengine.com
-# ==============================================================
+
 SIGHTENGINE_API_USER   = "916626049"
 SIGHTENGINE_API_SECRET = "puqMjnXaXvc2k9DmmSB6wdX3HZeUrTbF"
 SIGHTENGINE_ENDPOINT   = "https://api.sightengine.com/1.0/check.json"
 
-# ==============================================================
-# LOCAL FALLBACK MODEL (ResNet18)
-# Used when Sightengine is unavailable or rate-limited
-# ==============================================================
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 local_model = None   # Will be loaded on startup
 
@@ -138,10 +128,6 @@ preprocess = transforms.Compose([
 ])
 
 
-# ==============================================================
-# HELPER: Call Sightengine API for a single PIL Image
-# Returns: (result: str, confidence: float, success: bool)
-# ==============================================================
 def call_sightengine(pil_image: Image.Image) -> tuple:
     """
     Sends a PIL image to the Sightengine deepfake detection API.
@@ -204,9 +190,7 @@ def call_sightengine(pil_image: Image.Image) -> tuple:
         return None, None, False
 
 
-# ==============================================================
-# HELPER: Run Local ResNet18 model on a PIL Image
-# ==============================================================
+
 def call_local_model(pil_image: Image.Image) -> tuple:
     """
     Runs the local ResNet50 model on a PIL image.
@@ -242,10 +226,7 @@ def call_local_model(pil_image: Image.Image) -> tuple:
         return None, None, False
 
 
-# ==============================================================
-# HELPER: Detect a single image using Hybrid logic
-# Priority: Sightengine (cloud) → Local Model (fallback)
-# ==============================================================
+
 def detect_image_hybrid(pil_image: Image.Image) -> dict:
     """
     Exclusively uses the local model to ensure stability and bypass external limits.
@@ -263,10 +244,6 @@ def detect_image_hybrid(pil_image: Image.Image) -> dict:
             "message": "Local Model failure. Check server logs."}
 
 
-# ==============================================================
-# /predict  — Main API Endpoint  (called by Flutter app)
-# Handles BOTH images and videos
-# ==============================================================
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     """
@@ -285,11 +262,7 @@ async def predict(file: UploadFile = File(...)):
             if ext in ['.mp4', '.avi', '.mov', '.webm', '.mkv']:
                 is_video = True
 
-        # ──────────────────────────────────────────────────────
-        # VIDEO PIPELINE
-        # Extract 8 evenly spaced frames, run hybrid detection
-        # on each frame, then average all scores.
-        # ──────────────────────────────────────────────────────
+    
         if is_video:
             suffix = os.path.splitext(file.filename)[1] if file.filename else ".mp4"
             if not suffix:
@@ -405,10 +378,7 @@ async def predict(file: UploadFile = File(...)):
         return {"result": "Error", "message": f"Unexpected server error: {str(e)}"}
 
 
-# ==============================================================
-# /status  — Health check endpoint
-# Flutter can call this to know which engines are live
-# ==============================================================
+
 @app.get("/status")
 def status():
     """Returns the current status of Sightengine and local model."""
