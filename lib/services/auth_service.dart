@@ -15,14 +15,22 @@ class AuthService {
       final user = res.user;
       if (user != null) {
         try {
-          await _supabase.from('users').insert({
+          // Create profile
+          await _supabase.from('profiles').insert({
             'id': user.id,
             'name': name,
             'email': email,
-            'created_at': DateTime.now().toIso8601String(),
+          });
+          
+          // Create default settings
+          await _supabase.from('user_settings').insert({
+            'user_id': user.id,
+            'dark_mode': true,
+            'auto_save_history': true,
+            'notifications_enabled': true,
           });
         } catch (dbError) {
-          print("Database insert skipped: $dbError");
+          print("Profile/Settings insert error: $dbError");
         }
         return true;
       }

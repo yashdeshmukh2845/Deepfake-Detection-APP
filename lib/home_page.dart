@@ -7,6 +7,9 @@ import 'model_service.dart';
 import 'login_page.dart';
 import 'history_page.dart';
 import 'services/auth_service.dart';
+import 'profile_settings_page.dart';
+import 'services/database_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -65,6 +68,8 @@ class _HomePageState extends State<HomePage> {
             confidence: results['confidence'] ?? "0.00",
             message: results['message'],
             source: engineName,
+            mediaUrl: selectedMedia!.path, // Note: This will be local path for now, upload handled in ResultPage
+            isVideo: isVideo,
           ),
         ),
       );
@@ -183,10 +188,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(width: 4),
                   _headerIconButton(
-                    icon: Icons.logout_rounded,
-                    tooltip: "Logout",
-                    onTap: _logout,
-                    isDestructive: true,
+                    icon: Icons.person_rounded,
+                    tooltip: "User Profile",
+                    onTap: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const ProfileSettingsPage())),
                   ),
                 ],
               ),

@@ -1,45 +1,96 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'dart:io';
+import 'services/database_service.dart';
+import 'report_feedback_page.dart';
+import 'package:http/http.dart' as http;
+import 'dart:typed_data';
 
 class ResultPage extends StatefulWidget {
-
   final String result;      
   final String confidence; 
   final String? message;    
   final String? source;     
+  final String? mediaUrl;
+  final bool isVideo;
 
-  const ResultPage({super.key, required this.result, required this.confidence, this.message, this.source});
+  const ResultPage({
+    super.key, 
+    required this.result, 
+    required this.confidence, 
+    this.message, 
+    this.source,
+    this.mediaUrl,
+    this.isVideo = false,
+  });
 
   @override
   _ResultPageState createState() => _ResultPageState();
 }
 
 class _ResultPageState extends State<ResultPage> {
+  final _dbService = DatabaseService();
+  final _supabase = Supabase.instance.client;
+  String? _scanId;
 
   @override
   void initState() {
     super.initState();
-    _saveToHistory();
+    _handleSaving();
   }
 
-  Future<void> _saveToHistory() async {
-
+  Future<void> _handleSaving() async {
     if (widget.result.toLowerCase() == "error") return;
+    
+    final user = _supabase.auth.currentUser;
+    if (user == null) return;
+    final userId = user.id;
+    final settings = await _dbService.getUserSettings(userId);
+    
+    if (settings['auto_save_history'] == true && widget.mediaUrl != null) {
+      try {
+        // Upload media to storage
+        String publicUrl;
+        
+        if (kIsWeb) {
+          final response = await http.get(Uri.parse(widget.mediaUrl!));
+          final Uint8List bytes = response.bodyBytes;
+          final fileName = '${DateTime.now().millisecondsSinceEpoch}.jpg'; // Default to jpg for web blobs
+          final path = 'scans/$userId/$fileName';
+          
+          await _supabase.storage.from('scans').uploadBinary(path, bytes);
+          publicUrl = _supabase.storage.from('scans').getPublicUrl(path);
+        } else {
+          final file = File(widget.mediaUrl!);
+          final fileExt = file.path.split('.').last;
+          final fileName = '${DateTime.now().millisecondsSinceEpoch}.$fileExt';
+          final path = 'scans/$userId/$fileName';
+          
+          await _supabase.storage.from('scans').upload(path, file);
+          publicUrl = _supabase.storage.from('scans').getPublicUrl(path);
+        }
 
-    final prefs = await SharedPreferences.getInstance();
-    final List<String> existing = prefs.getStringList('detection_history') ?? [];
-
-    final now = DateTime.now();
-    final dateString = "${now.day}/${now.month}/${now.year} ${now.hour}:${now.minute.toString().padLeft(2, '0')}";
-
-    final riskLevel = getRiskLevel(double.tryParse(widget.confidence) ?? 0);
-    existing.add("${widget.result}|${widget.confidence}|$riskLevel|$dateString");
-
-    if (existing.length > 50) existing.removeAt(0);
-
-    await prefs.setStringList('detection_history', existing);
+        // Save scan record
+        final scanId = await _dbService.saveScan(
+          userId: userId,
+          mediaUrl: publicUrl,
+          result: widget.result.toLowerCase(),
+          confidence: double.tryParse(widget.confidence) ?? 0.0,
+        );
+        
+        if (mounted) setState(() => _scanId = scanId);
+      } catch (e) {
+        print("Error auto-saving scan record: $e");
+        if (e.toString().contains('Bucket not found')) {
+          print("CRITICAL: 'scans' bucket is missing in Supabase. Please run the setup SQL.");
+        } else if (e.toString().contains('42501')) {
+          print("CRITICAL: RLS policy violation on 'scans' table. Please run the setup SQL.");
+        }
+      }
+    }
   }
 
   String getRiskLevel(double confidence) {
@@ -151,9 +202,9 @@ class _ResultPageState extends State<ResultPage> {
               Container(
                 padding: EdgeInsets.all(28),
                 decoration: BoxDecoration(
-                  color: statusColor.withValues(alpha: 0.12),
+                  color: statusColor.withOpacity(0.12),
                   shape: BoxShape.circle,
-                  border: Border.all(color: statusColor.withValues(alpha: 0.3), width: 2),
+                  border: Border.all(color: statusColor.withOpacity(0.3), width: 2),
                 ),
                 child: Icon(statusIcon, size: 90, color: statusColor),
               ),
@@ -184,9 +235,9 @@ class _ResultPageState extends State<ResultPage> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                    color: getRiskColor(conf).withValues(alpha: 0.12),
+                    color: getRiskColor(conf).withOpacity(0.12),
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: getRiskColor(conf).withValues(alpha: 0.4)),
+                    border: Border.all(color: getRiskColor(conf).withOpacity(0.4)),
                   ),
                   child: Text(
                     getRiskEmoji(conf),
@@ -254,16 +305,16 @@ class _ResultPageState extends State<ResultPage> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
-                    color: statusColor.withValues(alpha: 0.05),
+                    color: statusColor.withOpacity(0.05),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: statusColor.withValues(alpha: 0.1)),
+                    border: Border.all(color: statusColor.withOpacity(0.1)),
                   ),
                   child: Text(
                     "ANALYSIS BY: ${engineLabel.toUpperCase()}",
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
-                      color: statusColor.withValues(alpha: 0.8),
+                      color: statusColor.withOpacity(0.8),
                       letterSpacing: 1,
                     ),
                   ),
@@ -310,6 +361,30 @@ class _ResultPageState extends State<ResultPage> {
                   ),
                 ),
                 SizedBox(height: 12),
+                OutlinedButton.icon(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ReportFeedbackPage(
+                          mediaUrl: widget.mediaUrl ?? '',
+                          result: widget.result,
+                          confidence: double.tryParse(widget.confidence) ?? 0.0,
+                          scanId: _scanId,
+                          isVideo: widget.isVideo,
+                        ),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.report_problem_outlined, color: Colors.orange),
+                  label: const Text("REPORT / GIVE FEEDBACK", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.orange)),
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 56),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    side: const BorderSide(color: Colors.orange),
+                  ),
+                ),
+                const SizedBox(height: 12),
               ],
 
               OutlinedButton.icon(
