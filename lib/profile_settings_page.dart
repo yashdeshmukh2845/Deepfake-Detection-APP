@@ -219,7 +219,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: colorScheme.surfaceVariant.withValues(alpha: 0.3),
+                color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(color: colorScheme.outlineVariant.withValues(alpha: 0.5)),
               ),

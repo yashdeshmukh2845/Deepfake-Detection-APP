@@ -284,7 +284,7 @@ class _ResultPageState extends State<ResultPage> {
                           child: LinearProgressIndicator(
                             value: conf / 100,
                             minHeight: 12,
-                            backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                            backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
                             color: statusColor,
                           ),
                         ),
