@@ -93,12 +93,12 @@ class _SignupPageState extends State<SignupPage> {
           Positioned(
             top: -50,
             left: -100,
-            child: _buildGlowOrb(350, Color(0xFF7000FF).withOpacity(0.12)),
+            child: _buildGlowOrb(350, Color(0xFF7000FF).withValues(alpha: 0.12)),
           ),
           Positioned(
             bottom: -100,
             right: -50,
-            child: _buildGlowOrb(400, Color(0xFF00F5FF).withOpacity(0.15)),
+            child: _buildGlowOrb(400, Color(0xFF00F5FF).withValues(alpha: 0.15)),
           ),
 
           SafeArea(
@@ -149,10 +149,10 @@ class _SignupPageState extends State<SignupPage> {
                             child: Container(
                               padding: const EdgeInsets.all(32),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.04),
+                                color: Colors.white.withValues(alpha: 0.04),
                                 borderRadius: BorderRadius.circular(32),
                                 border: Border.all(
-                                  color: Colors.white.withOpacity(0.1),
+                                  color: Colors.white.withValues(alpha: 0.1),
                                   width: 1,
                                 ),
                               ),
@@ -275,11 +275,11 @@ class _SignupPageState extends State<SignupPage> {
                   )
                 : null,
             filled: true,
-            fillColor: Colors.white.withOpacity(0.04),
+            fillColor: Colors.white.withValues(alpha: 0.04),
             contentPadding: const EdgeInsets.symmetric(vertical: 18),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.white.withOpacity(0.05)),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
@@ -305,7 +305,7 @@ class _SignupPageState extends State<SignupPage> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Color(0xFF00F5FF).withOpacity(0.3),
+              color: Color(0xFF00F5FF).withValues(alpha: 0.3),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),

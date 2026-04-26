@@ -178,7 +178,7 @@ class _ReportFeedbackPageState extends State<ReportFeedbackPage> {
                 hintText: "Tell us more about this content or why the result might be wrong...",
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 filled: true,
-                fillColor: theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                fillColor: theme.colorScheme.surfaceVariant.withValues(alpha: 0.3),
               ),
             ),
             const SizedBox(height: 30),

@@ -81,8 +81,8 @@ class _HistoryPageState extends State<HistoryPage> {
                     final bool isReal = result.toLowerCase() == "real";
                     final Color accentColor = isReal ? Colors.green[700]! : Colors.red[700]!;
                     final Color cardColor = isReal
-                        ? Colors.green.withOpacity(0.08)
-                        : Colors.red.withOpacity(0.08);
+                        ? Colors.green.withValues(alpha: 0.08)
+                        : Colors.red.withValues(alpha: 0.08);
 
                     return Card(
                       margin: const EdgeInsets.only(bottom: 16),
@@ -90,7 +90,7 @@ class _HistoryPageState extends State<HistoryPage> {
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(color: accentColor.withOpacity(0.2)),
+                        side: BorderSide(color: accentColor.withValues(alpha: 0.2)),
                       ),
                       child: Column(
                         children: [
@@ -101,7 +101,7 @@ class _HistoryPageState extends State<HistoryPage> {
                               child: Container(
                                 width: 60,
                                 height: 60,
-                                color: accentColor.withOpacity(0.1),
+                                color: accentColor.withValues(alpha: 0.1),
                                 child: mediaUrl.isNotEmpty
                                     ? Image.network(mediaUrl, fit: BoxFit.cover, 
                                         errorBuilder: (_, __, ___) => Icon(Icons.broken_image, color: accentColor))
@@ -125,7 +125,7 @@ class _HistoryPageState extends State<HistoryPage> {
                             trailing: Container(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                               decoration: BoxDecoration(
-                                color: accentColor.withOpacity(0.1),
+                                color: accentColor.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: Text(

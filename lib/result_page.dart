@@ -202,9 +202,9 @@ class _ResultPageState extends State<ResultPage> {
               Container(
                 padding: EdgeInsets.all(28),
                 decoration: BoxDecoration(
-                  color: statusColor.withOpacity(0.12),
+                  color: statusColor.withValues(alpha: 0.12),
                   shape: BoxShape.circle,
-                  border: Border.all(color: statusColor.withOpacity(0.3), width: 2),
+                  border: Border.all(color: statusColor.withValues(alpha: 0.3), width: 2),
                 ),
                 child: Icon(statusIcon, size: 90, color: statusColor),
               ),
@@ -235,9 +235,9 @@ class _ResultPageState extends State<ResultPage> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                    color: getRiskColor(conf).withOpacity(0.12),
+                    color: getRiskColor(conf).withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: getRiskColor(conf).withOpacity(0.4)),
+                    border: Border.all(color: getRiskColor(conf).withValues(alpha: 0.4)),
                   ),
                   child: Text(
                     getRiskEmoji(conf),
@@ -305,16 +305,16 @@ class _ResultPageState extends State<ResultPage> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.05),
+                    color: statusColor.withValues(alpha: 0.05),
                     borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: statusColor.withOpacity(0.1)),
+                    border: Border.all(color: statusColor.withValues(alpha: 0.1)),
                   ),
                   child: Text(
                     "ANALYSIS BY: ${engineLabel.toUpperCase()}",
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,
-                      color: statusColor.withOpacity(0.8),
+                      color: statusColor.withValues(alpha: 0.8),
                       letterSpacing: 1,
                     ),
                   ),

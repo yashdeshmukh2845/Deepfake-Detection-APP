@@ -80,17 +80,17 @@ class _LoginPageState extends State<LoginPage> {
           Positioned(
             top: -100,
             right: -50,
-            child: _buildGlowOrb(300, Color(0xFF00F5FF).withOpacity(0.15)),
+            child: _buildGlowOrb(300, Color(0xFF00F5FF).withValues(alpha: 0.15)),
           ),
           Positioned(
             bottom: -50,
             left: -100,
-            child: _buildGlowOrb(400, Color(0xFF7000FF).withOpacity(0.12)),
+            child: _buildGlowOrb(400, Color(0xFF7000FF).withValues(alpha: 0.12)),
           ),
           Positioned(
             top: 200,
             left: -150,
-            child: _buildGlowOrb(300, Color(0xFF00F5FF).withOpacity(0.08)),
+            child: _buildGlowOrb(300, Color(0xFF00F5FF).withValues(alpha: 0.08)),
           ),
 
           SafeArea(
@@ -105,9 +105,9 @@ class _LoginPageState extends State<LoginPage> {
                       width: 100,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.03),
+                        color: Colors.white.withValues(alpha: 0.03),
                         border: Border.all(
-                          color: Color(0xFF00F5FF).withOpacity(0.2),
+                          color: Color(0xFF00F5FF).withValues(alpha: 0.2),
                           width: 1,
                         ),
                       ),
@@ -146,10 +146,10 @@ class _LoginPageState extends State<LoginPage> {
                         child: Container(
                           padding: const EdgeInsets.all(32),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.04),
+                            color: Colors.white.withValues(alpha: 0.04),
                             borderRadius: BorderRadius.circular(32),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.1),
+                              color: Colors.white.withValues(alpha: 0.1),
                               width: 1,
                             ),
                           ),
@@ -285,11 +285,11 @@ class _LoginPageState extends State<LoginPage> {
                   )
                 : null,
             filled: true,
-            fillColor: Colors.white.withOpacity(0.04),
+            fillColor: Colors.white.withValues(alpha: 0.04),
             contentPadding: const EdgeInsets.symmetric(vertical: 18),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: Colors.white.withOpacity(0.05)),
+              borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(16),
@@ -315,7 +315,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Color(0xFF00F5FF).withOpacity(0.3),
+              color: Color(0xFF00F5FF).withValues(alpha: 0.3),
               blurRadius: 20,
               offset: const Offset(0, 10),
             ),

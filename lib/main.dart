@@ -43,7 +43,7 @@ class _DeepfakeAppState extends State<DeepfakeApp> {
             cardTheme: CardThemeData(
               elevation: 0,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
@@ -52,7 +52,7 @@ class _DeepfakeAppState extends State<DeepfakeApp> {
                 minimumSize: const Size(double.infinity, 56),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 elevation: 8,
-                shadowColor: const Color(0xFF00F5FF).withOpacity(0.5),
+                shadowColor: const Color(0xFF00F5FF).withValues(alpha: 0.5),
               ),
             ),
           ),
@@ -68,7 +68,7 @@ class _DeepfakeAppState extends State<DeepfakeApp> {
             cardTheme: CardThemeData(
               elevation: 0,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-              color: const Color(0xFF12121A).withOpacity(0.8),
+              color: const Color(0xFF12121A).withValues(alpha: 0.8),
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
               style: ElevatedButton.styleFrom(
@@ -77,7 +77,7 @@ class _DeepfakeAppState extends State<DeepfakeApp> {
                 minimumSize: const Size(double.infinity, 56),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 elevation: 12,
-                shadowColor: const Color(0xFF00F5FF).withOpacity(0.6),
+                shadowColor: const Color(0xFF00F5FF).withValues(alpha: 0.6),
               ),
             ),
           ),
